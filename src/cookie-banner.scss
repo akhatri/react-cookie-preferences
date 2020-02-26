@@ -1,0 +1,65 @@
+
+.cookie-consent-banner {
+	display: flex;
+	flex-direction: column;
+	background-color: #000;
+	min-height: 80px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 30px;
+	opacity: 0;
+	transform: translate3d(0, 100%, 0);
+	transition: all 1s ease-in-out;
+	z-index: 5;
+
+	.policy-info {
+		margin-bottom: 20px;
+	}
+
+	.title {
+		color: #fff;
+		margin-bottom: 20px;
+	}
+
+	.description {
+		color: #fff;
+	}
+
+	button {
+		display: inline-block;
+		outline: none;
+		background-color: transparent;
+		border: 0;
+		padding: 10px 20px;
+		border: 2px solid #fff;
+		color: #fff;
+		transition: all .5s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: #000;
+			background-color: #fff;
+		}
+	}
+
+
+	button+button {
+		margin-left: 20px;
+	}
+
+	a {
+		color: #fff;
+		text-decoration: none;
+		border-bottom: 1px solid #fff;
+	}
+
+	a:hover {
+		border-bottom-style: solid;
+	}
+
+	&.is-active {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}

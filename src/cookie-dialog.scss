@@ -1,0 +1,21 @@
+.cookie-preference-dialog {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+	background-color: #fff;
+	padding: 30px;
+	width: 40%;
+	transform: translate3d(100%, 0, 0);
+	transition: all 0.5s ease-in-out;
+	z-index: 7;
+
+	&.is-visible {
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.save-preferences {
+	position: absolute;
+	bottom: 50px;
+}

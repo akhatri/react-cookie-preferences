@@ -1,7 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+
+// Base styles
 import './styles.scss';
 
-import Cookies from 'js-cookie';
+// Cookie Banner
+import './cookie-banner.scss';
+
+// Cookie Dialog
+import './cookie-dialog.scss';
+
+// Cookie Options
+import './cookie-options.scss';
 
 export const CookieBanner = (props) => {
 
