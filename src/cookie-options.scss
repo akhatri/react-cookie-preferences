@@ -1,7 +1,7 @@
+
 .cookie-options-wrapper {
 	margin-top: 20px;
 	margin-bottom: 20px;
-
 	.title {
 		margin-bottom: 20px;
 	}
@@ -30,10 +30,10 @@
 	user-select: none;
 
 	input {
-		opacity: 0;
-		cursor: pointer;
-		height: 0;
-		width: 0;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 	}
 
 	p {
@@ -83,5 +83,3 @@
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
 }
-
-

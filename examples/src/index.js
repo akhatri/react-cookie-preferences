@@ -2,7 +2,6 @@ import React, { } from 'react';
 import { render } from 'react-dom';
 
 import { CookieBanner, CookieDialog } from '../../src';
-import { DialogContextProvider } from '../../src';
 import { CookieContextProvider } from '../../src';
 import { PreferenceCheckbox, MarketingCheckbox, StatisticsCheckbox } from '../../src';
 
@@ -21,17 +20,15 @@ const App = () => {
       <footer>
         <h3>Footer</h3>
       </footer>
-      <DialogContextProvider>
+      <CookieContextProvider>
         <CookieBanner>
-          <CookieContextProvider>
-            <CookieDialog>
-              <PreferenceCheckbox />
-              <MarketingCheckbox />
-              <StatisticsCheckbox />
-            </CookieDialog>
-          </CookieContextProvider>
+          <CookieDialog>
+            <PreferenceCheckbox />
+            <MarketingCheckbox />
+            <StatisticsCheckbox />
+          </CookieDialog>
         </CookieBanner>
-      </DialogContextProvider>
+      </CookieContextProvider>
     </div>
   )
 };

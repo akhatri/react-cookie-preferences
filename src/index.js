@@ -15,27 +15,12 @@ import './cookie-options.scss';
 
 export const CookieBanner = (props) => {
 
-  const { setDialogState, isBannerOpen, setBannerState } = useContext(DialogContext);
-
-  // console.log('hello cookie banner', isBannerOpen);
-  // const [isBannerOpen, setBannerState] = useState(false);
-  // const [isDialogOpen, setDialogState] = useState(false);
-
-  console.log('context provider', isBannerOpen);
-
-  setTimeout( ()=> {
-    console.log('add class');
-    //setBannerState(true);
-    Cookies.get('necessary-cookies') ? setBannerState(false) : setBannerState(true)
-  }, 500);
-
-
-  // const [isDialogOpen, setDialogState] = useState(true);
-
+  const { setDialogState, isBannerOpen, setBannerState } = useContext(CookieContext);
 
   useEffect(() => {
-    console.log('when component is mounted');
-    //Cookies.get('necessary-cookies') ? setBannerState(false) : setBannerState(true)
+
+    Cookies.get('necessary-cookies') ? setBannerState(false) : setBannerState(true)
+
   });
 
   const acceptCookies = () => {
@@ -44,7 +29,6 @@ export const CookieBanner = (props) => {
   }
 
   const manageConsent = () => {
-    console.log('manage consent button clicked');
     setDialogState(true);
   }
 
@@ -81,21 +65,9 @@ CookieBanner.defaultProps = {
 
 export const CookieDialog = (props) => {
 
-  const { isDialogOpen, setDialogState } = useContext(DialogContext);
-  //const [isDialogOpen, setDialogState] = useState(false);
-  // console.log(props);
-  const { preferenceCookie, setPreferenceCookie } = useContext(CookieContext);
-  const { marketingCookie, setMarketingCookie } = useContext(CookieContext);
-  const { statisticsCookie, setStatisticsCookie } = useContext(CookieContext);
+  const { isDialogOpen, setDialogState } = useContext(CookieContext);
 
   useEffect(() => {
-
-    Cookies.get(preferenceCookie.name) ? setPreferenceCookie({...preferenceCookie, enabled: true}) : setPreferenceCookie({...preferenceCookie, enabled: false});
-
-    Cookies.get(marketingCookie.name) ? setMarketingCookie({...marketingCookie, enabled: true}) : setMarketingCookie({...marketingCookie, enabled: false});
-
-    Cookies.get(statisticsCookie.name) ? setStatisticsCookie({...statisticsCookie, enabled: true}) : setStatisticsCookie({...statisticsCookie, enabled: false});
-
   }, [])
 
 
@@ -103,31 +75,15 @@ export const CookieDialog = (props) => {
   // Events
   //--------
 
-  const saveCookiePreference = (e) => {
+  const closeDialog = (e) => {
 
     e.preventDefault();
-
-    if (preferenceCookie.enabled) {
-      Cookies.set(preferenceCookie.name, preferenceCookie.enabled);
-    } else {
-      Cookies.remove(preferenceCookie.name);
-    }
-
-    if (marketingCookie.enabled) {
-      Cookies.set(marketingCookie.name, marketingCookie.enabled);
-    } else {
-      Cookies.remove(marketingCookie.name);
-    }
-
-    if (statisticsCookie.enabled) {
-      Cookies.set(statisticsCookie.name, statisticsCookie.enabled);
-    } else {
-      Cookies.remove(statisticsCookie.name);
-    }
-
     setDialogState(false);
 
   }
+
+  // Functions
+  //----------
 
   return (
 
@@ -136,8 +92,13 @@ export const CookieDialog = (props) => {
         <div className="container">
           <h1>{props.title}</h1>
           <p>{props.message}</p>
-            {props.children}
-          <button className="save-preferences" onClick={saveCookiePreference}>Save Cookie Preferences</button>
+
+          {props.children}
+
+          <div className="button-actions">
+            <button onClick={closeDialog}>{props.confirmText}</button>
+            <button onClick={closeDialog}>{props.cancelText}</button>
+          </div>
 
         </div>
       </div>
@@ -145,27 +106,38 @@ export const CookieDialog = (props) => {
 
     </>
   );
+
 }
 
 CookieDialog.defaultProps = {
   title: 'Your privacy options',
   message: 'Please review and manage your privacy settings below',
   cssClass: 'css',
-  onManagePreferences: function () { }
+  confirmText: 'Save Preferences',
+  cancelText: 'Cancel'
 }
-
-
 
 export const PreferenceCheckbox = (props) => {
 
-  const { preferenceCookie, setPreferenceCookie } = useContext(CookieContext);
+  const [preferenceCookie, setPreferenceCookie] = useState(true);
+
+  useEffect(() => {
+
+    Cookies.get(props.name) ? setPreferenceCookie(true) : setPreferenceCookie(false);
+
+  }, []);
 
   const togglePreferenceCookie = (e) => {
 
-    setPreferenceCookie({
-      ...preferenceCookie,
-      enabled: e.target.checked,
-    });
+    setPreferenceCookie(e.target.checked);
+
+    if (e.target.checked) {
+      console.log('SET COOKIE HERE', e.target.checked)
+      Cookies.set(props.name, e.target.checked);
+    } else {
+      console.log('REMOVE COOKIE HERE', e.target.checked)
+      Cookies.remove(props.name);
+    }
 
     // callback with checkbox status if necessary
     props.onPreferenceToggle(e.target.checked);
@@ -181,7 +153,7 @@ export const PreferenceCheckbox = (props) => {
       <div className='cookie-option'>
         <div className="checkbox-control">
           <label className="checkbox-container">
-            <input type="checkbox" checked={preferenceCookie.enabled} onChange={togglePreferenceCookie} />
+            <input type="checkbox" checked={preferenceCookie} onChange={togglePreferenceCookie} />
             <span className="checkmark"></span>
           </label>
         </div>
@@ -196,14 +168,27 @@ export const PreferenceCheckbox = (props) => {
 
 export const MarketingCheckbox = (props) => {
 
-  const { marketingCookie, setMarketingCookie } = useContext(CookieContext);
+  const [marketingCookie, setMarketingCookie] = useState(true);
+
+  useEffect(() => {
+
+    Cookies.get(props.name) ? setMarketingCookie(true) : setMarketingCookie(false);
+
+  }, []);
+
+
 
   const toggleMarketingCookie = (e) => {
 
-    setMarketingCookie({
-      ...marketingCookie,
-      enabled: e.target.checked,
-    });
+    setMarketingCookie(e.target.checked);
+
+    if (e.target.checked) {
+      console.log('SET COOKIE HERE', e.target.checked)
+      Cookies.set(props.name, e.target.checked);
+    } else {
+      console.log('REMOVE COOKIE HERE', e.target.checked)
+      Cookies.remove(props.name);
+    }
 
     // callback with checkbox status if necessary
     props.onMarketingToggle(e.target.checked);
@@ -218,7 +203,7 @@ export const MarketingCheckbox = (props) => {
       <div className='cookie-option'>
         <div className="checkbox-control">
           <label className="checkbox-container">
-            <input type="checkbox" checked={marketingCookie.enabled} onChange={toggleMarketingCookie} />
+            <input type="checkbox" checked={marketingCookie} onChange={toggleMarketingCookie} />
             <span className="checkmark"></span>
           </label>
         </div>
@@ -238,10 +223,16 @@ export const StatisticsCheckbox = (props) => {
 
   const toggleStatisticsCookie = (e) => {
 
-    setStatisticsCookie({
-      ...statisticsCookie,
-      enabled: e.target.checked,
-    });
+    setStatisticsCookie(e.target.checked);
+
+    if (e.target.checked) {
+      console.log('SET COOKIE HERE', e.target.checked)
+      Cookies.set(props.name, e.target.checked);
+    } else {
+      console.log('REMOVE COOKIE HERE', e.target.checked)
+      Cookies.remove(props.name);
+    }
+
 
     // callback with checkbox status if necessary
     props.onStatisticsToggle(e.target.checked);
@@ -257,7 +248,7 @@ export const StatisticsCheckbox = (props) => {
       <div className='cookie-option'>
         <div className="checkbox-control">
           <label className="checkbox-container">
-            <input type="checkbox" checked={statisticsCookie.enabled} onChange={toggleStatisticsCookie} />
+            <input type="checkbox" checked={statisticsCookie} onChange={toggleStatisticsCookie} />
             <span className="checkmark"></span>
           </label>
         </div>
@@ -273,18 +264,24 @@ export const StatisticsCheckbox = (props) => {
 PreferenceCheckbox.defaultProps = {
   title: 'Preference Cookie',
   message: 'This cookie option manages and tracks some marketing data',
+  name: 'preference_cookie',
+  expiry: 365,
   onPreferenceToggle: function () { }
 }
 
 MarketingCheckbox.defaultProps = {
   title: 'Marketing Cookie',
   message: 'This cookie option manages and tracks some marketing data',
+  name: 'marketing_cookie',
+  expiry: 365,
   onMarketingToggle: function () { }
 }
 
 StatisticsCheckbox.defaultProps = {
   title: 'Statistics Cookie',
   message: 'This cookie option manages and tracks some marketing data',
+  name: 'statistics_cookie',
+  expiry: 365,
   onStatisticsToggle: function () { }
 }
 
@@ -293,60 +290,16 @@ StatisticsCheckbox.defaultProps = {
  * Context API
  ******************/
 
-// Dialog Context
-//----------------
-
-export const DialogContext = createContext();
-
-export const DialogContextProvider = (props) => {
-
-  const [isDialogOpen, setDialogState] = useState(false);
-  const [isBannerOpen, setBannerState] = useState(false);
-
-  // const [preferenceCookies, setPreferenceCookies] = useState(true);
-  // const [marketingCookies, setMarketingCookies] = useState(true);
-
-
-  return (
-    <DialogContext.Provider value={{isDialogOpen, setDialogState, isBannerOpen, setBannerState}}>
-      {props.children}
-    </DialogContext.Provider>
-  )
-}
-
-// export default DialogContextProvider;
-
-// Cookie Context
-//----------------
-
 export const CookieContext = createContext();
 
 export const CookieContextProvider = (props) => {
 
-  const [preferenceCookie, setPreferenceCookie] = useState({
-    name: 'preference_cookie_consent',
-    expiry: 40,
-    enabled: true
-  });
-
-  const [marketingCookie, setMarketingCookie] = useState({
-    name: 'marketing_cookie_consent',
-    expiry: 7,
-    enabled: true
-  });
-
-  const [statisticsCookie, setStatisticsCookie] = useState({
-    name: 'statistics_cookie_consent',
-    expiry: 7,
-    enabled: true
-
-  });
+  const [isDialogOpen, setDialogState] = useState(false);
+  const [isBannerOpen, setBannerState] = useState(false);
 
   return (
-    <CookieContext.Provider value={{ preferenceCookie, setPreferenceCookie, marketingCookie, setMarketingCookie, statisticsCookie, setStatisticsCookie }}>
+    <CookieContext.Provider value={{ isDialogOpen, setDialogState, isBannerOpen, setBannerState }}>
       {props.children}
     </CookieContext.Provider>
   )
 }
-
-// export default CookieContextProvider;
