@@ -21,12 +21,21 @@ npm install --save react-cookie-preferences
 
 ## Usage
 
-Import the various components at the root level of your app. Remember to wrap all these components within the Context provider in order to maintain the global states of the cookie banner and dialog
+Import the various components at the root level of your app. Remember to wrap all these components within the Context provider in order to maintain the global states of the cookie banner and dialog.
+
+Once settings are selected, the following cookies are created on the browser
 
 ```js
-import { CookieBanner, CookieDialog } from '../../src';
-import { CookieContextProvider } from '../../src';
-import { PreferenceCheckbox, MarketingCheckbox, StatisticsCheckbox } from '../../src';
+`necessary-cookies` // set to true once the main cookie banner is selected
+`preference_cookie` // set to true if selected. It can be modified via options
+`marketing_cookie` // set to true if selected. It can be modified via options
+`statistics_cookie` // set to true if selected. It can be modified via options
+```
+
+```js
+import { CookieBanner, CookieDialog } from 'react-cookie-preferences';
+import { CookieContextProvider } from 'react-cookie-preferences';
+import { PreferenceCheckbox, MarketingCheckbox, StatisticsCheckbox } from 'react-cookie-preferences';
 
 const App = () => {
 
