@@ -5,20 +5,18 @@
 	.title {
 		margin-bottom: 20px;
 	}
-}
 
 .cookie-option {
 	display: flex;
 	align-items: center;
-	justify-content: center;
 }
 
 .checkbox-control {
-	flex-basis: 10%;
 	height: 25px;
 }
 
 .description {
+	margin-left: 40px;
 	p {
 		color: #000;
 	}
@@ -82,4 +80,6 @@
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
+}
+
 }

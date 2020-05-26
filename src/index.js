@@ -132,10 +132,8 @@ export const PreferenceCheckbox = (props) => {
     setPreferenceCookie(e.target.checked);
 
     if (e.target.checked) {
-      console.log('SET COOKIE HERE', e.target.checked)
       Cookies.set(props.name, e.target.checked);
     } else {
-      console.log('REMOVE COOKIE HERE', e.target.checked)
       Cookies.remove(props.name);
     }
 
@@ -183,10 +181,8 @@ export const MarketingCheckbox = (props) => {
     setMarketingCookie(e.target.checked);
 
     if (e.target.checked) {
-      console.log('SET COOKIE HERE', e.target.checked)
       Cookies.set(props.name, e.target.checked);
     } else {
-      console.log('REMOVE COOKIE HERE', e.target.checked)
       Cookies.remove(props.name);
     }
 
@@ -219,17 +215,22 @@ export const MarketingCheckbox = (props) => {
 
 export const StatisticsCheckbox = (props) => {
 
-  const { statisticsCookie, setStatisticsCookie } = useContext(CookieContext);
+  const [statisticsCookie, setStatisticsCookie] = useState(true);
+  
+  useEffect(() => {
+
+    Cookies.get(props.name) ? setStatisticsCookie(true) : setStatisticsCookie(false);
+
+  }, []);
+
 
   const toggleStatisticsCookie = (e) => {
 
     setStatisticsCookie(e.target.checked);
 
     if (e.target.checked) {
-      console.log('SET COOKIE HERE', e.target.checked)
       Cookies.set(props.name, e.target.checked);
     } else {
-      console.log('REMOVE COOKIE HERE', e.target.checked)
       Cookies.remove(props.name);
     }
 
