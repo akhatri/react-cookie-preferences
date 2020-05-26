@@ -5,7 +5,13 @@ A react package that allows users select their cookie preferences. It opens up a
 - uses `js-cookie` a lightweight VanillaJS library as a dependency
 - No other plugins or CSS frameworks so its pretty lightweight :)
 
-![Preview](https://raw.githubusercontent.com/Palmabit-IT/react-cookie-law/master/banner_preview.png)
+![Preview](https://github.com/akhatri/react-cookie-preferences/blob/master/public/Cookie-Banner.png?raw=true)
+**Cookie Banner Screenshot**
+
+![Preview](https://github.com/akhatri/react-cookie-preferences/blob/master/public/Cookie-Dialog.png?raw=true)
+**Cookie Dialog Screenshot**
+
+
 
 ## Installation
 
