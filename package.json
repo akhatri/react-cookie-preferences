@@ -1,13 +1,13 @@
 {
   "name": "react-cookie-preferences",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/akhatri/react-cookie-preferences.git"
-  },  
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --mode development",
